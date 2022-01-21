@@ -537,7 +537,9 @@ wavStatus Adafruit_WavePlayer::simplePlayer(File &f, int8_t leftOut,
   wavSample sample;
   wavStatus status = start(f, &sampleRate);
   if ((status == WAV_LOAD) || (status == WAV_EOF)) {
+#if !defined(ESP32)
     analogWriteResolution(DAC_BITS); // See notes above
+#endif
     r2 = sampleRate / 2;
     startTime = micros() - 1000UL; // Force 1st sample to play immediately
     for (uint32_t sampleNum = 0;; sampleNum++) {
